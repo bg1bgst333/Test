@@ -11,6 +11,9 @@ int main(){
   // 入力フォームを表示し, 入力文字列を取得したら, それも出力.
   std::cout << print_input_form("str: ") << std::endl; // print_input_formで入力フォームの表示と入力文字列の取得, そして入力文字列の出力.
 
+  // プログラムの終了
+  return 0; // 0を返して正常終了.
+
 }
 
 // 関数print_input_formの定義
