@@ -5,7 +5,7 @@
 /* 関数のプロトタイプ宣言 */
 void print_line(const char *str); /* 関数print_lineの宣言. */
 void trim_end_lf(char str[]); /* 関数trim_end_lfの宣言. */
-void print_input_form(const char *form_str, char input_str[], size_t len); /* 関数void_input_formの宣言. */
+void print_input_form(const char *form_str, char input_str[], size_t len); /* 関数print_input_formの宣言. */
 
 /* main関数の定義 */
 int main(void){
