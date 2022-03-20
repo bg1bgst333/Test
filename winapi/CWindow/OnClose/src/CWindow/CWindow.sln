@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32126.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CWindow", "CWindow\CWindow.vcxproj", "{AE617BA0-6304-46AF-A54B-47CA178BDA38}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE617BA0-6304-46AF-A54B-47CA178BDA38}.Debug|x64.ActiveCfg = Debug|x64
+		{AE617BA0-6304-46AF-A54B-47CA178BDA38}.Debug|x64.Build.0 = Debug|x64
+		{AE617BA0-6304-46AF-A54B-47CA178BDA38}.Debug|x86.ActiveCfg = Debug|Win32
+		{AE617BA0-6304-46AF-A54B-47CA178BDA38}.Debug|x86.Build.0 = Debug|Win32
+		{AE617BA0-6304-46AF-A54B-47CA178BDA38}.Release|x64.ActiveCfg = Release|x64
+		{AE617BA0-6304-46AF-A54B-47CA178BDA38}.Release|x64.Build.0 = Release|x64
+		{AE617BA0-6304-46AF-A54B-47CA178BDA38}.Release|x86.ActiveCfg = Release|Win32
+		{AE617BA0-6304-46AF-A54B-47CA178BDA38}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22099855-F005-4990-ACD1-AE54D09E68D8}
+	EndGlobalSection
+EndGlobal
