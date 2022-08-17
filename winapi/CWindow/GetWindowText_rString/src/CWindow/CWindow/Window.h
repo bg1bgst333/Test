@@ -6,6 +6,7 @@
 // 既定のヘッダ
 #include <windows.h>	// 標準WindowsAPI
 #include <tchar.h>		// TCHAR型
+#include <string>	// std::string
 #include <map>			// std::map
 // 独自のヘッダ
 #include "HandlerConditions.h"	// 構造体HandlerConditions

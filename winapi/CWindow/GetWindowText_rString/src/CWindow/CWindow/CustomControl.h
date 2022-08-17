@@ -3,8 +3,6 @@
 #define __CUSTOM_CONTROL_H__
 
 // ヘッダのインクルード
-// 既定のヘッダ
-#include <string>	// std::string
 // 独自のヘッダ
 #include "Window.h"	// CWindow
 
