@@ -1,6 +1,4 @@
 // ヘッダのインクルード
-// 既定のヘッダ
-#include <stdio.h>	// C標準入出力
 // 独自のヘッダ
 #include "MainWindow.h"	// CMainWindow
 
