@@ -1,0 +1,11 @@
+#include "resource.h"
+
+IDR_MAINMENU MENU
+BEGIN
+	POPUP "Item1(&A)"
+	BEGIN
+		MENUITEM "Item1-1(&B)", ID_ITEM_1_1
+	END
+END
+
+IDB_BITMAP1             BITMAP                  "bitmap1.bmp"
