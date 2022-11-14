@@ -13,6 +13,9 @@ class CMainWindow : public CWindow {
 	// publicメンバ
 	public:
 
+		// メンバ変数
+		CWindow* m_pChild;	// CWindowオブジェクトポインタm_pChild.
+
 		// staticメンバ関数
 		static BOOL RegisterClass(HINSTANCE hInstance);	// ウィンドウクラス登録関数RegisterClass.
 		static BOOL RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszMenuName);	// ウィンドウクラス登録関数RegisterClass.(メニュー名指定バージョン)

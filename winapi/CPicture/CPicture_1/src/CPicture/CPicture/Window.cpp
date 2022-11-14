@@ -678,4 +678,13 @@ void CWindow::OnVScroll(UINT nSBCode, UINT nPos) {
 	InvalidateRect(m_hWnd, NULL, TRUE);	// InvalidateRectで無効領域を作成.(NULLなので全体が無効領域.)
 	UpdateWindow(m_hWnd);	// UpdateWindowでウィンドウの更新.
 
+	// WM_VSCROLLが発生した時に来たことを示す.
+	HDC hDC = GetDC(m_hWnd);	// hDC取得.
+	static int i = 0;	// スタティック変数iを0で初期化.
+	TCHAR tszI[16] = { 0 };	// 文字列バッファtszI(長さ16)を{0}で初期化.
+	_stprintf(tszI, _T("i = %d"), i);	// iを文字列tszIに変換.
+	BOOL b = TextOut(hDC, 0, 0, tszI, _tcslen(tszI));	// tszIを描画.
+	i++;	// iをインクリメント.
+	ReleaseDC(m_hWnd, hDC);	// hDC解放.
+
 }

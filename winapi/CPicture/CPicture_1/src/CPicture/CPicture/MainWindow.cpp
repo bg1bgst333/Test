@@ -23,6 +23,9 @@ BOOL CMainWindow::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszMenuName) {
 // コンストラクタCMainWindow()
 CMainWindow::CMainWindow() {
 
+	// メンバの初期化.
+	m_pChild = NULL;	// m_pChildをNULLで初期化.
+
 }
 
 // デストラクタ~CMainWindow()
@@ -65,6 +68,13 @@ BOOL CMainWindow::DestroyChildren() {
 	// 変数の初期化.
 	BOOL bRet = FALSE;	// bRetをFALSEで初期化.
 
+	// 子ウィンドウの破棄.
+	if (m_pChild != NULL) {	// NULLでなければ.
+		bRet = m_pChild->Destroy();	// m_pChild->Destroyでウィンドウを破棄.
+		delete m_pChild;	// deleteでm_pChildを解放.
+		m_pChild = NULL;	// NULLをセット.
+	}
+
 	// 破棄したらTRUEを返す.
 	if (bRet) {	// TRUEなら.
 		return TRUE;	// TRUEを返す.
@@ -97,6 +107,25 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct) {
 	scrVert.nPos = 0;	// 現在位置は0.
 	scrVert.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;	// ページ, レンジ, 位置をセット.
 	SetScrollInfo(hwnd, SB_VERT, &scrVert, TRUE);	// スクロール情報をセット
+
+	// 子ウィンドウの作成.
+	m_pChild = new CWindow();	// CWindowオブジェクトm_pChild作成.
+	RECT rc;	// RECT構造体rc.
+	rc.left = 50;		// 左50
+	rc.right = 150;		// 右150
+	rc.top = 250;		// 上250
+	rc.bottom = 350;	// 下350
+	m_pChild->Create(_T("Child"), _T(""), WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL, rc, hwnd, (HMENU)(WM_APP + 1), lpCreateStruct->hInstance);	// Createでウィンドウクラス"Child"のウィンドウ作成.	
+
+	// 子ウィンドウの垂直方向スクロールバーの初期化.
+	SCROLLINFO scrVertChild = { 0 };	// 垂直方向スクロール情報scrVertChildを{0}で初期化.
+	scrVertChild.cbSize = sizeof(SCROLLINFO);	// sizeofで構造体サイズ指定.
+	scrVertChild.nMin = 0;	// 最小値は0.
+	scrVertChild.nMax = 480 - 1;	// 最大値は479.
+	scrVertChild.nPage = 100;	// ページサイズは100.
+	scrVertChild.nPos = 0;	// 現在位置は0.
+	scrVertChild.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;	// ページ, レンジ, 位置をセット.
+	SetScrollInfo(m_pChild->m_hWnd, SB_VERT, &scrVertChild, TRUE);	// スクロール情報をセット.
 
 	// 親クラスのOnCreateを呼ぶ.
 	return CWindow::OnCreate(hwnd, lpCreateStruct);	// CWindow::OnCreateを呼び, 戻り値を返す.
