@@ -5,6 +5,7 @@
 // ヘッダのインクルード
 // 独自のヘッダ
 #include "Window.h"		// CWindow
+#include "Picture.h"	// CPicture
 #include "resource.h"	// リソース
 
 // メインウィンドウクラスCMainWindow
@@ -15,6 +16,7 @@ class CMainWindow : public CWindow {
 
 		// メンバ変数
 		CWindow* m_pChild;	// CWindowオブジェクトポインタm_pChild.
+		CPicture* m_pPicture;	// CPictureオブジェクトポインタm_pPicture.
 
 		// staticメンバ関数
 		static BOOL RegisterClass(HINSTANCE hInstance);	// ウィンドウクラス登録関数RegisterClass.

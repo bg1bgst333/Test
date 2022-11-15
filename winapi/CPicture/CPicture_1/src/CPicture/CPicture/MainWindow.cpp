@@ -25,6 +25,7 @@ CMainWindow::CMainWindow() {
 
 	// メンバの初期化.
 	m_pChild = NULL;	// m_pChildをNULLで初期化.
+	m_pPicture = NULL;	// m_pPictureをNULLで初期化.
 
 }
 
@@ -73,6 +74,13 @@ BOOL CMainWindow::DestroyChildren() {
 		bRet = m_pChild->Destroy();	// m_pChild->Destroyでウィンドウを破棄.
 		delete m_pChild;	// deleteでm_pChildを解放.
 		m_pChild = NULL;	// NULLをセット.
+	}
+
+	// ピクチャーの破棄.
+	if (m_pPicture != NULL) {	// NULLでなければ.
+		bRet = m_pPicture->Destroy();	// m_pPicture->Destroyでウィンドウを破棄.
+		delete m_pPicture;	// deleteでm_pPictureを解放.
+		m_pPicture = NULL;	// NULLをセット.
 	}
 
 	// 破棄したらTRUEを返す.
@@ -126,6 +134,28 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct) {
 	scrVertChild.nPos = 0;	// 現在位置は0.
 	scrVertChild.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;	// ページ, レンジ, 位置をセット.
 	SetScrollInfo(m_pChild->m_hWnd, SB_VERT, &scrVertChild, TRUE);	// スクロール情報をセット.
+
+	// ピクチャーコントロールのウィンドウ作成.
+	m_pPicture = new CPicture();	// newでCPictureオブジェクトを作成し, ポインタm_pPictureに格納.
+	/*
+	RECT rc2;	// RECT構造体rc2.
+	rc2.left = 150;		// 左150
+	rc2.right = 250;		// 右250
+	rc2.top = 250;		// 上250
+	rc2.bottom = 350;	// 下350
+	*/
+	//m_pPicture->Create(_T(""), WS_BORDER | WS_VSCROLL | SS_BITMAP, rc2, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// Createでピクチャーコントロールのウィンドウ作成.
+	m_pPicture->Create(_T("CPicutre"), WS_BORDER | WS_VSCROLL | SS_BITMAP, 150, 250, 100, 100, hwnd, (HMENU)(WM_APP + 2), lpCreateStruct->hInstance);	// Createでピクチャーコントロールのウィンドウ作成.
+
+	// ピクチャーの垂直方向スクロールバーの初期化.
+	SCROLLINFO scrVertPicture = { 0 };	// 垂直方向スクロール情報scrVertPictureを{0}で初期化.
+	scrVertPicture.cbSize = sizeof(SCROLLINFO);	// sizeofで構造体サイズ指定.
+	scrVertPicture.nMin = 0;	// 最小値は0.
+	scrVertPicture.nMax = 480 - 1;	// 最大値は479.
+	scrVertPicture.nPage = 100;	// ページサイズは100.
+	scrVertPicture.nPos = 0;	// 現在位置は0.
+	scrVertPicture.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;	// ページ, レンジ, 位置をセット.
+	SetScrollInfo(m_pPicture->m_hWnd, SB_VERT, &scrVertPicture, TRUE);	// スクロール情報をセット.
 
 	// 親クラスのOnCreateを呼ぶ.
 	return CWindow::OnCreate(hwnd, lpCreateStruct);	// CWindow::OnCreateを呼び, 戻り値を返す.

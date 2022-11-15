@@ -140,16 +140,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="CustomControl.h" />
     <ClInclude Include="HandlerConditions.h" />
     <ClInclude Include="MainApplication.h" />
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="Picture.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="StaticCore.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="CustomControl.cpp" />
     <ClCompile Include="MainApplication.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="Picture.cpp" />
+    <ClCompile Include="StaticCore.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
