@@ -4,10 +4,11 @@
 
 // ヘッダのインクルード
 // 独自のヘッダ
-#include "StaticCore.h"	// CStaticCore
+//#include "StaticCore.h"	// CStaticCore
+#include "UserControl.h"	// CUserControl
 
 // ピクチャークラスCPicture
-class CPicture : public CStaticCore {
+class CPicture : public CUserControl/*CStaticCore*/ {
 
 	// publicメンバ
 	public:

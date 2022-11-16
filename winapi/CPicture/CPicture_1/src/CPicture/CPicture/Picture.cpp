@@ -5,7 +5,7 @@
 #include "Picture.h"	// CPicture
 
 // コンストラクタCPicture
-CPicture::CPicture() : CStaticCore() {
+CPicture::CPicture() : CUserControl()/* : CStaticCore()*/ {
 
 	// メンバの初期化.
 	m_hDC = NULL;	// m_hDCをNULLで初期化.
@@ -47,7 +47,8 @@ BOOL CPicture::Destroy() {
 	}
 
 	// 親クラスのDestroyを呼ぶ.
-	return CStaticCore::Destroy();	// CStaticCore::Destroyを呼ぶ.
+	//return CStaticCore::Destroy();	// CStaticCore::Destroyを呼ぶ.
+	return CUserControl::Destroy();	// CUserControl::Destroyを呼ぶ.
 
 }
 
@@ -83,8 +84,9 @@ int CPicture::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct) {
 		return -2;	// -2を返してウィンドウ作成失敗とする.
 	}
 
-	// 親クラスのOnCreateを呼ぶ.
-	return CStaticCore::OnCreate(hwnd, lpCreateStruct);	// CStaticCore::OnCreateの値を返す.
+	/// 親クラスのOnCreateを呼ぶ.
+	//return CStaticCore::OnCreate(hwnd, lpCreateStruct);	// CStaticCore::OnCreateの値を返す.
+	return CUserControl::OnCreate(hwnd, lpCreateStruct);	// CUserControl::OnCreateの値を返す.
 
 }
 

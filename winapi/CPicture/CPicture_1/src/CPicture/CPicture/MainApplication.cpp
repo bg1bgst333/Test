@@ -2,6 +2,7 @@
 // 独自のヘッダ
 #include "MainApplication.h"	// CMainApplication
 #include "MainWindow.h"			// CMainWindow
+#include "UserControl.h"		// CUserControl
 
 // インスタンス初期化関数InitInstance.
 BOOL CMainApplication::InitInstance(HINSTANCE hInstance, LPTSTR lpCmdLine, int nShowCmd) {
@@ -9,6 +10,7 @@ BOOL CMainApplication::InitInstance(HINSTANCE hInstance, LPTSTR lpCmdLine, int n
 	// ウィンドウクラスの登録.
 	CMainWindow::RegisterClass(hInstance, MAKEINTRESOURCE(IDR_MAINMENU));	// CMainWindow::RegisterClassでメニューIDR_MAINMENUを指定してウィンドウクラスを登録.
 	CWindow::RegisterClass(hInstance, _T("Child"));	// ウィンドウクラス"Child"の登録.
+	CUserControl::RegisterClass(hInstance);	// ウィンドウクラス"CUserControl"の登録.
 
 	// CMainWindowオブジェクトの作成.
 	m_pMainWnd = new CMainWindow();	// CMainWindowオブジェクトを作成し, m_pMainWndに格納.
