@@ -109,10 +109,10 @@ void CPicture::OnPaint() {
 	TextOut(hDC, 0, 0, _T("CPicture"), (int)_tcslen(_T("CPicture")));	// Win32APIのTextOutで"CPicture"と描画.
 	TCHAR tszBuf1[64] = { 0 };	// TCHARバッファtszBuf1(長さ64)を{0}で初期化.
 	_stprintf(tszBuf1, _T("m_hDC = 0x%08x"), m_hDC);	// _stprintfでm_hDCを文字列に変換.
-	TextOut(hDC, 0, 25, tszBuf1, (int)_tcslen(tszBuf1));	// Win32APIのTextOutでtszBuf1を描画.
+	//TextOut(hDC, 0, 25, tszBuf1, (int)_tcslen(tszBuf1));	// Win32APIのTextOutでtszBuf1を描画.
 	TCHAR tszBuf2[64] = { 0 };	// TCHARバッファtszBuf2(長さ64)を{0}で初期化.
 	_stprintf(tszBuf2, _T("m_hMemDC = 0x%08x"), m_hMemDC);	// _stprintfでm_hMemDCを文字列に変換.
-	TextOut(hDC, 0, 50, tszBuf2, (int)_tcslen(tszBuf2));	// Win32APIのTextOutでtszBuf2を描画.
+	//TextOut(hDC, 0, 50, tszBuf2, (int)_tcslen(tszBuf2));	// Win32APIのTextOutでtszBuf2を描画.
 
 	// 描画の終了.
 	EndPaint(m_hWnd, &ps);	// Win32APIのEndPaintで描画終了.

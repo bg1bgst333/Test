@@ -40,6 +40,7 @@ class CCustomControl : public CWindow {
 		virtual int OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct);	// ウィンドウの作成が開始された時.
 		virtual void OnDestroy();	// ウィンドウが破棄された時.
 		virtual void OnPaint();	// ウィンドウの描画を要求された時.
+		virtual void OnVScroll(UINT nSBCode, UINT nPos);	// 垂直方向スクロールバーイベント時.
 
 };
 
