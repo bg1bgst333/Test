@@ -147,6 +147,20 @@ LRESULT CCustomControl::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
 
+		// 垂直スクロールバーがスクロールされた時.
+		case WM_VSCROLL:	// 垂直スクロールバーがスクロールされた時.(uMsgがWM_VSCROLLの時.)
+
+			// WM_VSCROLLブロック
+			{
+
+				// OnVScrollに任せる.
+				OnVScroll(LOWORD(wParam), HIWORD(wParam));	// OnVScrollに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
+
 		// それ以外の時.
 		default:
 
@@ -209,7 +223,7 @@ void CCustomControl::OnPaint() {
 
 	// 文字列の描画.
 	hDC = BeginPaint(m_hWnd, &ps);	// Win32APIのBeginPaintでhDCを取得.
-	TextOut(hDC, 0, 0, _T("CCustomControl"), (int)_tcslen(_T("CCustomControl")));	// Win32APIのTextOutで"CCustomControl"と描画.
+	//TextOut(hDC, 0, 0, _T("CCustomControl"), (int)_tcslen(_T("CCustomControl")));	// Win32APIのTextOutで"CCustomControl"と描画.
 	EndPaint(m_hWnd, &ps);	// Win32APIのEndPaintで描画終了.
 
 }

@@ -26,6 +26,7 @@ CMainWindow::CMainWindow() {
 	// メンバの初期化.
 	m_pChild = NULL;	// m_pChildをNULLで初期化.
 	m_pPicture = NULL;	// m_pPictureをNULLで初期化.
+	m_pEdit = NULL;	// m_pEditをNULLで初期化.
 
 }
 
@@ -81,6 +82,13 @@ BOOL CMainWindow::DestroyChildren() {
 		bRet = m_pPicture->Destroy();	// m_pPicture->Destroyでウィンドウを破棄.
 		delete m_pPicture;	// deleteでm_pPictureを解放.
 		m_pPicture = NULL;	// NULLをセット.
+	}
+
+	// エディットコアの破棄.
+	if (m_pEdit != NULL) {	// NULLでなければ.
+		bRet = m_pEdit->Destroy();	// m_pEdit->Destroyでウィンドウを破棄.
+		delete m_pEdit;	// deleteでm_pEditを解放.
+		m_pEdit = NULL;	// NULLをセット.
 	}
 
 	// 破棄したらTRUEを返す.
@@ -156,6 +164,25 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct) {
 	scrVertPicture.nPos = 0;	// 現在位置は0.
 	scrVertPicture.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;	// ページ, レンジ, 位置をセット.
 	SetScrollInfo(m_pPicture->m_hWnd, SB_VERT, &scrVertPicture, TRUE);	// スクロール情報をセット.
+
+	// エディットコアコントロールのウィンドウ作成.
+	m_pEdit = new CEditCore();	// newでCEditCoreオブジェクトを作成し, ポインタをm_pEditに格納.
+	RECT rc3;	// RECT構造体rc3.
+	rc3.left = 250;		// 左250
+	rc3.right = 350;		// 右350
+	rc3.top = 250;		// 上250
+	rc3.bottom = 350;	// 下350
+	m_pEdit->Create(_T("Edit1"), WS_BORDER | WS_VSCROLL, rc3, hwnd, (HMENU)(WM_APP + 3), lpCreateStruct->hInstance);	// Createでエディットコアコントロール"Edit1"のウィンドウ作成.
+
+	// エディットコアの垂直方向スクロールバーの初期化.
+	SCROLLINFO scrVertEdit = { 0 };	// 垂直方向スクロール情報scrVertEditを{0}で初期化.
+	scrVertEdit.cbSize = sizeof(SCROLLINFO);	// sizeofで構造体サイズ指定.
+	scrVertEdit.nMin = 0;	// 最小値は0.
+	scrVertEdit.nMax = 480 - 1;	// 最大値は479.
+	scrVertEdit.nPage = 100;	// ページサイズは100.
+	scrVertEdit.nPos = 0;	// 現在位置は0.
+	scrVertEdit.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;	// ページ, レンジ, 位置をセット.
+	SetScrollInfo(m_pEdit->m_hWnd, SB_VERT, &scrVertEdit, TRUE);	// スクロール情報をセット.
 
 	// 親クラスのOnCreateを呼ぶ.
 	return CWindow::OnCreate(hwnd, lpCreateStruct);	// CWindow::OnCreateを呼び, 戻り値を返す.
