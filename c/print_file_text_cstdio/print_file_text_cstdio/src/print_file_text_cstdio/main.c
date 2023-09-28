@@ -4,7 +4,7 @@
 #include <locale.h> /* ロケール */
 
 /* 関数のプロトタイプ宣言 */
-int print_file_text_cstdio(const char *path, const char *text, size_t len); /* 関数print_file_text_cstdioの宣言. */
+int print_file_text_cstdio(const char *path, const char *text); /* 関数print_file_text_cstdioの宣言. */
 
 /* main関数の定義 */
 int main(void){
@@ -14,13 +14,13 @@ int main(void){
   char japanese_str[] = "あいうえお\nかきくけこ\nさしすせそ"; /* '\n'が含まれた日本語文字列. */
 
   /* ascii_strを"test1.txt"に出力. */
-  print_file_text_cstdio("test1.txt", ascii_str, strlen(ascii_str)); /* print_file_text_cstdioでascii_strを"test1.txt"に出力. */
+  print_file_text_cstdio("test1.txt", ascii_str); /* print_file_text_cstdioでascii_strを"test1.txt"に出力. */
 
   /* "ja_JP.UTF-8"ロケールのセット. */
   setlocale(LC_ALL, "ja_JP.UTF-8"); /* setlocaleでLC_ALL, "ja_JP.UTF-8"をセット. */
 
   /* japanese_strを"test2.txt"に出力. */
-  print_file_text_cstdio("test2.txt", japanese_str, strlen(japanese_str)); /* print_file_text_cstdioでjapanese_strを"test2.txt"に出力. */
+  print_file_text_cstdio("test2.txt", japanese_str); /* print_file_text_cstdioでjapanese_strを"test2.txt"に出力. */
 
   /* プログラムの終了 */
   return 0; /* 0を返して正常終了. */
@@ -28,7 +28,7 @@ int main(void){
 }
 
 /* C標準入出力ライブラリ関数でテキストファイル出力. */
-int print_file_text_cstdio(const char *path, const char *text, size_t len){
+int print_file_text_cstdio(const char *path, const char *text){
 
   /* 変数・構造体の初期化. */
   FILE *fp = NULL; /* ファイルポインタfpをNULLで初期化. */
