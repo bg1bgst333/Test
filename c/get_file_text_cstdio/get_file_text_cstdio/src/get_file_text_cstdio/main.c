@@ -43,7 +43,7 @@ int main(void){
   buf2 = (char *)malloc((file_size_2 + 1) * sizeof(char)); /* mallocで(file_size_2 + 1)分のメモリ確保. */
 
   /* "test2.txt"からの入力をbuf2に格納. */
-  get_file_text_cstdio("test2.txt", buf2, file_size_1 + 1); /* get_file_text_cstdioで"test2.txt"を読み込み. */
+  get_file_text_cstdio("test2.txt", buf2, file_size_2 + 1); /* get_file_text_cstdioで"test2.txt"を読み込み. */
 
   /* buf2を出力. */
   printf("buf2 = [%s]\n", buf2); /* printfでbuf2を出力. */
