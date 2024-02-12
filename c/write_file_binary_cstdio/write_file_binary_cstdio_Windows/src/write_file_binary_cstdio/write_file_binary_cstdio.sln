@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "write_file_binary_cstdio", "write_file_binary_cstdio\write_file_binary_cstdio.vcproj", "{8F1AA29E-74C6-4CFC-95E4-7336290E9EC5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F1AA29E-74C6-4CFC-95E4-7336290E9EC5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8F1AA29E-74C6-4CFC-95E4-7336290E9EC5}.Debug|Win32.Build.0 = Debug|Win32
+		{8F1AA29E-74C6-4CFC-95E4-7336290E9EC5}.Release|Win32.ActiveCfg = Release|Win32
+		{8F1AA29E-74C6-4CFC-95E4-7336290E9EC5}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
