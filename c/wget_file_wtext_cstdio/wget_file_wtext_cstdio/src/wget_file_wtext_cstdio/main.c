@@ -5,11 +5,10 @@
 #include <locale.h> /* ロケール */
 #include <sys/stat.h> /* ファイル状態 */
 #include <wchar.h> /* ワイド文字 */
-#include <iconv.h> /* 文字コード変換 */
 
 /* 関数のプロトタイプ宣言 */
 size_t get_file_size(const char *path); /* 関数get_file_sizeの宣言. */
-char * get_file_text_cstdio(const char *path, char *text, size_t buf_size); /* 関数get_file_text_cstdioの宣言. */
+wchar_t * wget_file_wtext_cstdio(const char *path, wchar_t *text, size_t buf_size); /* 関数wget_file_wtext_cstdioの宣言. */
 
 /* main関数の定義 */
 int main(void){
@@ -18,34 +17,26 @@ int main(void){
   size_t file_size_0; /* size_t型変数file_size_0. */
   size_t file_size_1; /* size_t型変数file_size_1. */
   size_t file_size_2; /* size_t型変数file_size_2. */
-  char *buf0 = NULL; /* wchar_t型ポインタbuf0をNULLで初期化. */
-  char *buf1 = NULL; /* wchar_t型ポインタbuf1をNULLで初期化. */
-  char *buf2 = NULL; /* wchar_t型ポインタbuf2をNULLで初期化. */
+  wchar_t *buf0 = NULL; /* wchar_t型ポインタbuf0をNULLで初期化. */
+  wchar_t *buf1 = NULL; /* wchar_t型ポインタbuf1をNULLで初期化. */
+  wchar_t *buf2 = NULL; /* wchar_t型ポインタbuf2をNULLで初期化. */
   int ret_0 = 0;
   int ret_1 = 0;
   int ret_2 = 0;
-  iconv_t iconv_dsc;
-  char src_buf[256] = {0};
-  char *src_ptr = NULL;
-  char dest_buf[256] = {0};
-  char *dest_ptr = NULL;
-  size_t src_len = 0;
-  size_t dest_len = 0;
-  size_t ret_len = 0;
 
   /* test1.txtのサイズ取得. */
   file_size_0 = get_file_size("test1.txt"); /* get_file_sizeで"test1.txt"のサイズ取得. */
 
   /* メモリの確保. */
-  buf0 = (char *)malloc((file_size_0 + 1) * sizeof(char)); /* mallocで((file_size_0 + 1) * sizeof(char))分のメモリ確保. */
+  buf0 = (wchar_t *)malloc((file_size_0 + 1) * sizeof(wchar_t)); /* mallocで((file_size_0 + 1) * sizeof(wchar_t))分のメモリ確保. */
 
   /* "test1.txt"からの入力をbuf0に格納. */
-  get_file_text_cstdio("test1.txt", buf0, file_size_0 + 1); /* get_file_text_cstdioで"test1.txt"を読み込み. */
-  ret_0 = strlen(buf0); /* 長さをret_0に格納. */
-  buf0[ret_0] = '\0'; /* NULL終端 */
+  wget_file_wtext_cstdio("test1.txt", buf0, file_size_0 + 1); /* wget_file_wtext_cstdioで"test1.txt"を読み込み. */
+  ret_0 = wcslen(buf0); /* 長さをret_0に格納. */
+  buf0[ret_0] = L'\0'; /* NULL終端 */
 
   /* buf0を出力. */
-  printf("buf0 = %s\n", buf0); /* printfでbuf0を出力. */
+  printf("buf0 = %ls\n", buf0); /* printfでbuf0を出力. */
 
   /* メモリの解放. */
   free(buf0); /* freeでbuf0を解放. */
@@ -57,15 +48,15 @@ int main(void){
   file_size_1 = get_file_size("test1.txt"); /* get_file_sizeで"test1.txt"のサイズ取得. */
 
   /* メモリの確保. */
-  buf1 = (char *)malloc((file_size_1 + 1) * sizeof(char)); /* mallocで((file_size_1 + 1) * sizeof(char))分のメモリ確保. */
+  buf1 = (wchar_t *)malloc((file_size_1 + 1) * sizeof(wchar_t)); /* mallocで((file_size_1 + 1) * sizeof(wchar_t))分のメモリ確保. */
 
   /* "test1.txt"からの入力をbuf1に格納. */
-  get_file_text_cstdio("test1.txt", buf1, file_size_1 + 1); /* get_file_text_cstdioで"test1.txt"を読み込み. */
-  ret_1 = strlen(buf1); /* 長さをret_1に格納. */
-  buf1[ret_1] = '\0'; /* NULL終端 */
+  wget_file_wtext_cstdio("test1.txt", buf1, file_size_1 + 1); /* wget_file_wtext_cstdioで"test1.txt"を読み込み. */
+  ret_1 = wcslen(buf1); /* 長さをret_1に格納. */
+  buf1[ret_1] = L'\0'; /* NULL終端 */
 
   /* buf1を出力. */
-  printf("buf1 = %s\n", buf1); /* printfでbuf1を出力. */
+  printf("buf1 = %ls\n", buf1); /* printfでbuf1を出力. */
 
   /* メモリの解放. */
   free(buf1); /* freeでbuf1を解放. */
@@ -77,43 +68,16 @@ int main(void){
   file_size_2 = get_file_size("test2.txt"); /* get_file_sizeで"test2.txt"のサイズ取得. */
 
   /* メモリの確保. */
-  buf2 = (char *)malloc((file_size_2 + 1) * sizeof(char)); /* mallocで((file_size_2 + 1) * sizeof(char))分のメモリ確保. */
+  buf2 = (wchar_t *)malloc((file_size_2 + 1) * sizeof(wchar_t)); /* mallocで((file_size_2 + 1) * sizeof(wchar_t))分のメモリ確保. */
 
   /* "test2.txt"からの入力をbuf2に格納. */
-  get_file_text_cstdio("test2.txt", buf2, file_size_2 + 1); /* get_file_text_cstdioで"test2.txt"を読み込み. */
-  ret_2 = strlen(buf2); /* 長さをret_2に格納. */
-  buf2[ret_2] = '\0'; /* NULL終端 */
+  wget_file_wtext_cstdio("test2.txt", buf2, file_size_2 + 1); /* wget_file_wtext_cstdioで"test2.txt"を読み込み. */
+  ret_2 = wcslen(buf2); /* 長さをret_2に格納. */
+  buf2[ret_2] = L'\0'; /* NULL終端 */
 
   /* buf2を出力. */
   setlocale(LC_ALL, "ja_JP.UTF-8"); /* これがないと出力されない. */
-  printf("buf2 = %s\n", buf2); /* printfでbuf2を出力. */
-
-  /* 変換ディスクリプタの取得. */
-  iconv_dsc = iconv_open("UTF-8", "EUC-JP"); /* iconv_openで"EUC-JP"から"UTF-8"への変換ディスクリプタを取得. */
-  if (iconv_dsc == (iconv_t)-1){ /* -1なら. */
-    printf("iconv_open error!\n"); /* "iconv_open error!"を出力. */
-    free(buf2);
-    return -1; /* -1を返して異常終了. */
-  }
-
-  /* 文字コード変換. */
-  strcpy(src_buf, buf2);
-  src_ptr = src_buf;
-  src_len = strlen(src_buf);
-  dest_ptr = dest_buf;
-  dest_len = sizeof(dest_buf);
-  ret_len = iconv(iconv_dsc, &src_ptr, &src_len, &dest_ptr, &dest_len); /* iconvで変換. */
-  if (ret_len == -1){ /* -1なら. */
-    printf("iconv error!\n"); /* "iconv error!"と出力. */
-    free(buf2);
-    return -2; /* -2を返して異常終了. */
-  }
-
-  /* dest_bufを出力. */
-  printf("dest_buf = %s\n", dest_buf); /* printfでdest_bufを出力. */
-
-  /* 変換ディスクリプタを閉じる. */
-  iconv_close(iconv_dsc); /* iconv_closeでiconv_dscを閉じる. */
+  printf("buf2 = %ls\n", buf2); /* printfでbuf2を出力. */
 
   /* メモリの解放. */
   free(buf2); /* freeでbuf2を解放. */
@@ -137,19 +101,19 @@ size_t get_file_size(const char *path){
 
 }
 
-/* C標準入出力ライブラリ関数でテキストファイル入力. */
-char * get_file_text_cstdio(const char *path, char *text, size_t buf_size){
+/* C標準入出力ライブラリ関数でワイド文字テキストファイル入力. */
+wchar_t * wget_file_wtext_cstdio(const char *path, wchar_t *text, size_t buf_size){
 
   /* 構造体・ポインタの宣言・初期化. */
   FILE *fp = NULL; /* ファイルポインタfpをNULLで初期化. */
-  char *ret; /* 格納した文字列ポインタret. */
+  wchar_t *ret; /* 格納した文字列ポインタret. */
 
   /* ファイルを開く. */
   fp = fopen(path, "r"); /* fopenでテキスト読み込みで開く. */
   if (fp != NULL){ /* fpがNULLでない時. */
 
-    /* ファイルからテキストを読み込む. */
-    ret = fgets(text, buf_size, fp); /* fgetsでfpから入力しtextに格納, 戻り値はretに格納. */
+    /* ファイルからワイド文字テキストを読み込む. */
+    ret = fgetws(text, buf_size, fp); /* fgetwsでfpから入力しwtextに格納, 戻り値はretに格納. */
 
     /* fpを閉じる. */
     fclose(fp); /* fcloseでfpを閉じる. */
