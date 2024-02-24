@@ -2,6 +2,7 @@
 #include <stdio.h> /* 標準入出力 */
 #include <wchar.h> /* ワイド文字 */
 #include <locale.h> /* ロケール */
+#include <string.h> /* 文字列処理 */
 
 /* 関数のプロトタイプ宣言 */
 int print_file_wtext_locale_cstdio(const char *path, const wchar_t *wtext, const char *locale); /* 関数print_file_wtext_locale_cstdioの宣言. */
@@ -11,6 +12,9 @@ int main(void){
 
   /* 配列の初期化. */
   wchar_t japanese_wstr[] = L"あいうえお\nかきくけこ\nさしすせそ"; /* '\n'が含まれた日本語文字列. */
+
+  /* ロケール"ja_JP.UTF-8"のセット. */
+  setlocale(LC_ALL, "ja_JP.UTF-8"); /* setlocaleでLC_ALL, "ja_JP.UTF-8"をセット. */
 
   /* japanese_wstrを"ja_JP.UTF-8"で"test1.txt"に出力. */
   print_file_wtext_locale_cstdio("test1.txt", japanese_wstr, "ja_JP.UTF-8"); /* print_file_wtext_locale_cstdioでjapanese_wstrを"ja_JP.UTF-8"で"test1.txt"に出力. */
@@ -29,10 +33,13 @@ int print_file_wtext_locale_cstdio(const char *path, const wchar_t *wtext, const
   /* 変数・構造体の初期化. */
   FILE *fp = NULL; /* ファイルポインタfpをNULLで初期化. */
   int ret = 0; /* 書き込んだバイト数retを0に初期化. */
-  char *old_locale = NULL; /* 以前のロケールold_localeをNULLで初期化. */
+  char old_locale[256] = {0}; /* 以前のロケールold_localeを{0}で初期化. */
+
+  /* 以前のロケールを取得. */
+  strcpy(old_locale, setlocale(LC_ALL, NULL)); /* setlocaleで第2引数にNULLを指定し, 戻り値をold_localeにコピー. */
 
   /* 指定ロケールをセット. */
-  old_locale = setlocale(LC_ALL, locale); /* setlocaleでLC_ALL, localeをセットし, 戻り値はold_localeに格納. */
+  setlocale(LC_ALL, locale); /* setlocaleでLC_ALL, localeをセット. */
 
   /* ファイルを開く. */
   fp = fopen(path, "w"); /* fopenでテキスト書き込みで開く. */
