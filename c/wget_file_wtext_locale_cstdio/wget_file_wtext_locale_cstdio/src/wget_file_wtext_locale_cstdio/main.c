@@ -8,7 +8,7 @@
 
 /* 関数のプロトタイプ宣言 */
 size_t get_file_size(const char *path); /* 関数get_file_sizeの宣言. */
-wchar_t * wget_file_wtext_locale_cstdio(const char *path, wchar_t *text, size_t buf_size, const char *locale); /* 関数wget_file_wtext_locale_cstdioの宣言. */
+wchar_t * wget_file_wtext_locale_cstdio(const char *path, wchar_t *wtext, size_t buf_size, const char *locale); /* 関数wget_file_wtext_locale_cstdioの宣言. */
 
 /* main関数の定義 */
 int main(void){
@@ -78,7 +78,7 @@ size_t get_file_size(const char *path){
 }
 
 /* C標準入出力ライブラリ関数でワイド文字テキストファイル入力. */
-wchar_t * wget_file_wtext_locale_cstdio(const char *path, wchar_t *text, size_t buf_size, const char *locale){
+wchar_t * wget_file_wtext_locale_cstdio(const char *path, wchar_t *wtext, size_t buf_size, const char *locale){
 
   /* 構造体・ポインタの宣言・初期化. */
   FILE *fp = NULL; /* ファイルポインタfpをNULLで初期化. */
@@ -96,7 +96,7 @@ wchar_t * wget_file_wtext_locale_cstdio(const char *path, wchar_t *text, size_t 
   if (fp != NULL){ /* fpがNULLでない時. */
 
     /* ファイルからワイド文字テキストを読み込む. */
-    ret = fgetws(text, buf_size, fp); /* fgetwsでfpから入力しwtextに格納, 戻り値はretに格納. */
+    ret = fgetws(wtext, buf_size, fp); /* fgetwsでfpから入力しwtextに格納, 戻り値はretに格納. */
 
     /* fpを閉じる. */
     fclose(fp); /* fcloseでfpを閉じる. */
