@@ -65,6 +65,7 @@ int read_wtext_file_binary_without_bom_utf16be_cstdio(const char *path, std::wst
 	converted[src.length() * 2] = '\0';
 	converted[src.length() * 2 + 1] = '\0';
 	wtext = (wchar_t *)converted;
+	delete [] converted;
 	return wtext.length();
 
 }
