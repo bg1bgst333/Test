@@ -10,28 +10,28 @@
 class CFileDialog {
 
 	// privateメンバ
-private:
+	private:
 
-	// privateメンバ変数
-	BOOL m_bOpenFileDalog;
-	TCHAR m_tszDefExt[16];
-	TCHAR m_tszFileName[1024];
-	TCHAR m_tszFilter[1024];
+		// privateメンバ変数
+		BOOL m_bOpenFileDalog;
+		TCHAR m_tszDefExt[16];
+		TCHAR m_tszFileName[1024];
+		TCHAR m_tszFilter[1024];
 
 	// protectedメンバ
-protected:
+	protected:
 
-	// protectedメンバ変数
-	OPENFILENAME m_ofn;	// OPENFILENAME構造体m_ofn.
+		// protectedメンバ変数
+		OPENFILENAME m_ofn;	// OPENFILENAME構造体m_ofn.
 
-// publicメンバ
-public:
+	// publicメンバ
+	public:
 
-	// publicメンバ関数
-	// コンストラクタ・デストラクタ
-	CFileDialog(BOOL bOpenFileDalog, LPCTSTR lpszDefExt = NULL, LPCTSTR lpszFileName = NULL, DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, LPCTSTR lpszFilter = NULL, CWindow* pParentWnd = NULL, DWORD dwSize = 0);	// コンストラクタCFileDialog
-	// メンバ関数
-	INT_PTR DoModal();	// モーダル表示.
+		// publicメンバ関数
+		// コンストラクタ・デストラクタ
+		CFileDialog(BOOL bOpenFileDalog, LPCTSTR lpszDefExt = NULL, LPCTSTR lpszFileName = NULL, DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, LPCTSTR lpszFilter = NULL, CWindow* pParentWnd = NULL, DWORD dwSize = 0);	// コンストラクタCFileDialog
+		// メンバ関数
+		INT_PTR DoModal();	// モーダル表示.
 
 };
 
