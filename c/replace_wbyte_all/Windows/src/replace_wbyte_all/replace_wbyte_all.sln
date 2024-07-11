@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "replace_wbyte_all", "replace_wbyte_all\replace_wbyte_all.vcproj", "{1887E0D7-8A6F-4490-AA3B-0F48C7769112}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1887E0D7-8A6F-4490-AA3B-0F48C7769112}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1887E0D7-8A6F-4490-AA3B-0F48C7769112}.Debug|Win32.Build.0 = Debug|Win32
+		{1887E0D7-8A6F-4490-AA3B-0F48C7769112}.Release|Win32.ActiveCfg = Release|Win32
+		{1887E0D7-8A6F-4490-AA3B-0F48C7769112}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
