@@ -1,0 +1,25 @@
+// 二重インクルード防止
+#ifndef __TEXT_FILE_H__
+#define __TEXT_FILE_H__
+
+// ヘッダのインクルード
+// 独自のヘッダ
+#include "BinaryFile.h"	// CBinaryFile
+
+// テキストファイルクラスCTextFile
+class CTextFile : public CBinaryFile {
+
+	// publicメンバ
+	public:
+
+		// publicメンバ変数
+		tstring m_tstrText;		// テキスト内容.
+
+		// publicメンバ関数
+		void SetText(tstring tstrText);	// テキストのセット.
+		void SetTextToUtf16LEBytes(tstring tstrText);	// テキストをセットし, UTF-16LEバイト列に変換してバッファにセット.
+		virtual BOOL Write(LPCTSTR lpctszFileName);	// 指定のテキストファイルに全部一斉書き込み.
+
+};
+
+#endif
