@@ -43,7 +43,8 @@ class CTextFile : public CBinaryFile{
 		void SetText(tstring tstrText);	// テキストのセット.
 		void EncodeUtf16LE();	// テキストをUTF-16LEバイト列に変換してバッファにセット.
 		void EncodeUtf16LEWithBom();	// テキストをBOM付きUTF-16LEバイト列に変換してバッファにセット.
-		BOOL EncodeShiftJis();	// テキストをShift_JISバイト列に変換に変換してバッファにセット.
+		void EncodeUtf16BE();	// テキストをUTF-16BEバイト列に変換してバッファにセット.
+		BOOL EncodeShiftJis();	// テキストをShift_JISバイト列に変換してバッファにセット.
 		void ConvertNewLine(NEW_LINE dest, NEW_LINE src);	// 改行コードの変換.
 		virtual BOOL Write(LPCTSTR lpctszFileName);	// 指定のテキストファイルに全部一斉書き込み.
 		BOM CheckBom();	// BOMのチェック.

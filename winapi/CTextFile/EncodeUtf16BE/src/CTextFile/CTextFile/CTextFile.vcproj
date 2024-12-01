@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\file_utility_cstdio.c"
+				>
+			</File>
+			<File
 				RelativePath=".\FileDialog.cpp"
 				>
 			</File>
@@ -256,6 +260,10 @@
 			</File>
 			<File
 				RelativePath=".\File.h"
+				>
+			</File>
+			<File
+				RelativePath=".\file_utility_cstdio.h"
 				>
 			</File>
 			<File

@@ -2,6 +2,7 @@
 // 独自のヘッダ
 #include "TextFile.h"	// CTextFile
 #include "string_utility_cppstring.h"	// 文字列ユーティリティ(C++文字列処理)
+#include "file_utility_cstdio.h"	// ファイルユーティリティ(Cファイル処理)
 
 // テキストのセット.
 void CTextFile::SetText(tstring tstrText){
@@ -32,7 +33,18 @@ void CTextFile::EncodeUtf16LEWithBom(){
 
 }
 
-// テキストをShift_JISバイト列に変換に変換してバッファにセット.
+// テキストをUTF-16BEバイト列に変換してバッファにセット.
+void CTextFile::EncodeUtf16BE(){
+
+	// バイト列を入れ替える.
+	BYTE *pByte = new BYTE[m_tstrText.length() * 2];
+	convert_endian_16bit_byte_array((char *)m_tstrText.c_str(), (char *)pByte, m_tstrText.length() * 2);
+	Set(pByte, m_tstrText.length() * 2);
+	delete [] pByte;
+
+}
+
+// テキストをShift_JISバイト列に変換してバッファにセット.
 BOOL CTextFile::EncodeShiftJis(){
 
 	// Shift_JISバイト列をバッファにセット.
@@ -103,6 +115,9 @@ BOOL CTextFile::Write(LPCTSTR lpctszFileName){
 		else{	// BOM無しなら.
 			EncodeUtf16LE();	// EncodeUtf16LEでm_tstrTextをBOM無しUTF-16LEバイト列に変換してバッファにセット.
 		}
+	}
+	else if (m_Encoding == CTextFile::ENCODING_UTF_16BE){	// UTF-16BEなら.
+		EncodeUtf16BE();	// EncodeUtf16BEでm_tstrTextをBOM無しUTF-16BEバイト列に変換してバッファにセット.
 	}
 	else{	// それ以外.
 		// 最終的にShift_JISにする.
@@ -180,12 +195,17 @@ CTextFile::NEW_LINE CTextFile::CheckNewLine(){
 
 	// まずCR('\r')を探す.
 	size_t f = m_tstrText.find_first_of(_T('\r'));	// '\r'の位置をfに格納.
-	if (f != -1 && f < m_tstrText.length() - 1){	// f('\r')が見つかった場合.
-		if (m_tstrText[f + 1] == '\n'){	// 次が'\n'の場合.
-			m_NewLine = NEW_LINE_CRLF;	// NEW_LINE_CRLFをセット.
-		}
-		else{	// '\r'だけ.
+	if (f != -1){	// f('\r')が見つかった場合.
+		if (f == m_tstrText.length() - 1){	// 最後が'\r'.
 			m_NewLine = NEW_LINE_CR;	// NEW_LINE_CRをセット.
+		}
+		else{	// 最後でない.
+			if (m_tstrText[f + 1] == '\n'){	// 次が'\n'の場合.
+				m_NewLine = NEW_LINE_CRLF;	// NEW_LINE_CRLFをセット.
+			}
+			else{	// '\r'だけ.
+				m_NewLine = NEW_LINE_CR;	// NEW_LINE_CRをセット.
+			}
 		}
 	}
 	else{	// '\r'はないので, '\n'を探す.
@@ -216,6 +236,8 @@ BOOL CTextFile::Read(LPCTSTR lpctszFileName){
 	BOOL bRet = CBinaryFile::Read(lpctszFileName);
 	if (bRet){	// 成功.
 
+		// ファイルを閉じる.
+		Close();
 		// BOMのチェック.
 		CheckBom();
 		if (m_Bom == BOM_UTF16LE){	// UTF-16LEのBOMの場合.
@@ -230,11 +252,13 @@ BOOL CTextFile::Read(LPCTSTR lpctszFileName){
 		if (m_NewLine != NEW_LINE_NONE || m_NewLine != NEW_LINE_CRLF){	// 改行無しではない or CRLFではない場合.
 			ConvertNewLine(CTextFile::NEW_LINE_CRLF, m_NewLine);	// CRLFに変換.
 		}
+		CBinaryFile::Clear();	// バッファクリア.
 		return TRUE;	// TRUEを返す.
 
 	}
 
 	// FALSEを返す.
+	CBinaryFile::Clear();	// バッファクリア.
 	return FALSE;
 
 }
@@ -244,8 +268,6 @@ void CTextFile::Clear(){
 
 	// メンバの終了処理.
 	m_tstrText.clear();	// クリア.
-	m_Encoding = ENCODING_NONE;	// エンコード無し.
-	m_Bom = BOM_NONE;	// BOM無し.
 
 	// 親クラスのClearを呼ぶ.
 	CBinaryFile::Clear();	// バッファクリア.

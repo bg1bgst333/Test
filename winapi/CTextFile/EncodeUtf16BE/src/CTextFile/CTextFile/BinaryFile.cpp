@@ -16,7 +16,7 @@ CBinaryFile::~CBinaryFile(){
 
 	// ファイルとバッファをクリアする.
 	Close();	// ファイルを閉じる.
-	Clear();	// バッファを破棄.
+	CBinaryFile::Clear();	// バッファを破棄.
 
 }
 
@@ -72,7 +72,7 @@ BOOL CBinaryFile::Write(LPCTSTR lpctszFileName){
 void CBinaryFile::Set(BYTE *pBytes, DWORD dwSize){
 
 	// バッファをクリアする.
-	Clear();	// バッファを破棄.
+	CBinaryFile::Clear();	// バッファを破棄.
 
 	// メンバにセット.
 	m_dwSize = dwSize;	// m_deSizeにdwSizeをセット.
