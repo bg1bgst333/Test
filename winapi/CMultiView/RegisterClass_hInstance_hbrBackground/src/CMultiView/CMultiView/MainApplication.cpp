@@ -10,7 +10,7 @@ BOOL CMainApplication::InitInstance(HINSTANCE hInstance, LPTSTR lpCmdLine, int n
 	// ウィンドウクラスの登録.
 	CMainWindow::RegisterClass(hInstance);
 	m_hBrush = CreateSolidBrush(RGB(0xff, 0, 0));	// 赤ブラシの生成.
-	CUserControl::RegisterClass(hInstance, _T("CMultiView"), m_hBrush);	// 赤いCMultiViewの登録.
+	CMultiView::RegisterClass(hInstance, m_hBrush);	// 赤いCMultiViewの登録.
 
 	// CMainWindowオブジェクトの作成.
 	m_pMainWnd = new CMainWindow();	// CMainWindowオブジェクトを作成し, m_pMainWndに格納.

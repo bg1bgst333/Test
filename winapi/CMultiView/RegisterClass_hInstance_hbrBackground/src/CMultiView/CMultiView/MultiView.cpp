@@ -20,6 +20,14 @@ BOOL CMultiView::RegisterClass(HINSTANCE hInstance) {
 
 }
 
+// ウィンドウクラス登録関数RegisterClass(背景ブラシハンドル指定バージョン.)
+BOOL CMultiView::RegisterClass(HINSTANCE hInstance, HBRUSH hbrBackground) {
+
+	// ウィンドウクラス名にはlpctszClassName, 背景ブラシハンドルにはhbrBackgroundを指定.
+	return CUserControl::RegisterClass(hInstance, _T("CMultiView"), hbrBackground);	// CUserControl::RegisterClassで登録.
+
+}
+
 // ウィンドウ作成関数Create.
 BOOL CMultiView::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance) {
 
