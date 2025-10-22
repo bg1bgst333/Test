@@ -36,7 +36,7 @@ BOOL CMainApplication::InitInstance(HINSTANCE hInstance, LPTSTR lpCmdLine, int n
 // 終了処理関数ExitInstance.
 int CMainApplication::ExitInstance(){
 
-	// 赤ブラシの解放.
+	// ブラシの解放.
 	DeleteObject(m_hBrush2);
 	DeleteObject(m_hBrush1);
 
