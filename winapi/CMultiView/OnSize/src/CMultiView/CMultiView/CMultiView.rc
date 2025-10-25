@@ -1,0 +1,9 @@
+#include "resource.h"
+
+IDM_MAINMENU MENU
+BEGIN
+	POPUP "ファイル(&F)"
+	BEGIN
+		MENUITEM "開く(&O)", ID_ITEM_FILE_OPEN
+	END
+END
