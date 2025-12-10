@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BinaryFile.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ComboBox.cpp"
 				>
 			</File>
@@ -194,6 +198,14 @@
 			</File>
 			<File
 				RelativePath=".\EditCore.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\File.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\file_utility_cstdio.c"
 				>
 			</File>
 			<File
@@ -225,7 +237,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\string_utility_cppstring.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\string_utility_cstring.c"
+				>
+			</File>
+			<File
+				RelativePath=".\TextFile.cpp"
 				>
 			</File>
 			<File
@@ -251,6 +271,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BinaryFile.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ComboBox.h"
 				>
 			</File>
@@ -264,6 +288,14 @@
 			</File>
 			<File
 				RelativePath=".\EditCore.h"
+				>
+			</File>
+			<File
+				RelativePath=".\File.h"
+				>
+			</File>
+			<File
+				RelativePath=".\file_utility_cstdio.h"
 				>
 			</File>
 			<File
@@ -303,7 +335,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\string_utility_cppstring.h"
+				>
+			</File>
+			<File
 				RelativePath=".\string_utility_cstring.h"
+				>
+			</File>
+			<File
+				RelativePath=".\TextFile.h"
 				>
 			</File>
 			<File

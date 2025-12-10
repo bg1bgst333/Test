@@ -33,6 +33,7 @@ CMainWindow::CMainWindow(){
 	m_hInstance = NULL;
 	m_pMainMenu = NULL;
 	m_pMultiView = NULL;
+	m_pTextFile = NULL;	// m_pTextFileをNULLで初期化.
 
 }
 
@@ -84,6 +85,12 @@ BOOL CMainWindow::DestroyChildren(){
 	// 変数の初期化.
 	BOOL bRet = FALSE;	// bRetをFALSEで初期化.
 
+	// テキストファイルオブジェクトの破棄.
+	if (m_pTextFile != NULL){	// m_pTextFileがNULLでなければ.
+		delete m_pTextFile;	// deleteでm_pTextFileを解放.
+		m_pTextFile = NULL;	// m_pTextFileにNULLをセット.
+	}
+
 	// メンバの終了処理.
 	if (m_pMultiView != NULL){
 		bRet = m_pMultiView->Destroy();
@@ -119,22 +126,6 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct){
 			GetClientRect(hwnd, &rc);
 			m_pMultiView = new CMultiView();
 			m_pMultiView->Create(_T(""), 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top, hwnd, (HMENU)IDC_MULTIVIEW, m_hInstance);
-			/*
-			// アイテムの追加.
-			m_pMultiView->Add(_T("Item0"), 0, 0, rc.right - rc.left, 25, m_hInstance);
-			// マルチビューアイテムの取得.
-			CMultiViewItem *pItem0 = m_pMultiView->Get(0);
-			// マルチビューアイテム内にコンボボックス1を配置.
-			CComboBox *pComboBox1 = new CComboBox();
-			pComboBox1->Create(_T("Item0-ComboBox1"), WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, rc.right - rc.left, 100, pItem0->m_hWnd, (HMENU)WM_APP + 200, m_hInstance);
-			pItem0->m_mapChildMap.insert(std::make_pair(_T("Item0-ComboBox1"), pComboBox1));
-			// コンボボックスに文字列アイテムを追加
-			pComboBox1->AddString(_T("あいうえお"));
-			pComboBox1->AddString(_T("かきくけこ"));
-			pComboBox1->AddString(_T("さしすせそ"));
-			// 2番目の"さしすせそ"にセット.
-			pComboBox1->SetCurSel(2);
-			*/
 		}
 	}
 	return iRet;	// iRetを返す.
@@ -196,8 +187,9 @@ int CMainWindow::OnFileOpen(WPARAM wParam, LPARAM lParam){
 			RECT rc = {0};
 			GetClientRect(m_hWnd, &rc);
 			m_pMultiView->Add(_T("MVIEncodingComboBox"), 0, 0, rc.right - rc.left, 25, m_hInstance);
-			m_pMultiView->Add(_T("MVIContentEditBox"), 0, 25, rc.right - rc.left, 25, m_hInstance);
-			m_pMultiView->Add(_T("MVINewLineComboBox"), 0, 50, rc.right - rc.left, 25, m_hInstance);
+			//m_pMultiView->Add(_T("MVIBOMComboBox"), 0, 25, rc.right - rc.left, 25, m_hInstance);
+			//m_pMultiView->Add(_T("MVIContentEditBox"), 0, 50, rc.right - rc.left, 25, m_hInstance);
+			//m_pMultiView->Add(_T("MVINewLineComboBox"), 0, 75, rc.right - rc.left, 25, m_hInstance);
 			// マルチビューアイテム内にコントロールを配置.
 			CMultiViewItem* pItemEncodingComboBox = m_pMultiView->Get(0);
 			CComboBox* pEncodingComboBox = new CComboBox();
@@ -207,25 +199,38 @@ int CMainWindow::OnFileOpen(WPARAM wParam, LPARAM lParam){
 			pEncodingComboBox->AddString(_T("Shift_JIS"));
 			pEncodingComboBox->AddString(_T("UTF-16LE"));
 			pEncodingComboBox->AddString(_T("UTF-16BE"));
-			pEncodingComboBox->AddString(_T("UTF-8 BOM"));
 			pEncodingComboBox->AddString(_T("UTF-8"));
 			pEncodingComboBox->AddString(_T("EUC-JP"));
 			pEncodingComboBox->AddString(_T("JIS"));
-			pEncodingComboBox->SetCurSel(0);
+			// テキストファイルの読み込み.
+			if (m_pTextFile == NULL){
+				m_pTextFile = new CTextFile();
+			}
+			BOOL bRet = m_pTextFile->Read(dlg.GetOFN().lpstrFile);	// 指定されたファイルを読み込み, 読み込んだバイト列を文字コード変換し, テキストとして持つ.
+			if (bRet){	// 成功.
+				// 文字コード.
+				if (m_pTextFile->m_Encoding == CTextFile::ENCODING_UTF_16LE){
+					pEncodingComboBox->SetCurSel(1);
+				}
+				else if (m_pTextFile->m_Encoding == CTextFile::ENCODING_UTF_16BE){
+					pEncodingComboBox->SetCurSel(2);
+				}
+				else if (m_pTextFile->m_Encoding == CTextFile::ENCODING_UTF_8){
+					pEncodingComboBox->SetCurSel(3);
+				}
+				else if (m_pTextFile->m_Encoding == CTextFile::ENCODING_SHIFT_JIS){
+					pEncodingComboBox->SetCurSel(0);
+				}
+				else if (m_pTextFile->m_Encoding == CTextFile::ENCODING_EUC_JP){
+					pEncodingComboBox->SetCurSel(4);
+				}
+				else{
+					pEncodingComboBox->SetCurSel(5);
+				}
+			}
 		}
-		//MessageBox(m_hWnd, dlg.GetFileExt().c_str(), _T("ObjeqtNote32"), MB_OK);
 	}
-	/*
-	// マルチビューアイテムの取得.
-	CMultiViewItem *pItem0 = m_pMultiView->Get(0);
-	// コンボボックスの取得.
-	CComboBox *pComboBox1 = (CComboBox *)pItem0->m_mapChildMap[_T("Item0-ComboBox1")];
-	// 選択されたインデックスの取得と表示.
-	int idx = pComboBox1->GetCurSel();
-	TCHAR tszIdx[16] = {0};
-	_stprintf(tszIdx, _T("idx = %d"), idx);
-	MessageBox(m_hWnd, tszIdx, _T("CComboBox"), MB_OK);
-	*/
+
 	// 0を返す.
 	return 0;	// 処理したので0.
 
