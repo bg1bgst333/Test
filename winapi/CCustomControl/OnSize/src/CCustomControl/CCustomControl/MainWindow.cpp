@@ -187,14 +187,20 @@ int CMainWindow::OnFileOpen(WPARAM wParam, LPARAM lParam) {
 			RECT rc = { 0 };
 			GetClientRect(m_hWnd, &rc);
 			m_pMultiView->Add(_T("MVIEncodingComboBox"), 0, 0, rc.right - rc.left, 25, m_hInstance);
-			//m_pMultiView->Add(_T("MVIBOMComboBox"), 0, 25, rc.right - rc.left, 25, m_hInstance);
+			m_pMultiView->Add(_T("MVIBomComboBox"), 0, 25, rc.right - rc.left, 25, m_hInstance);
 			//m_pMultiView->Add(_T("MVIContentEditBox"), 0, 50, rc.right - rc.left, 25, m_hInstance);
 			//m_pMultiView->Add(_T("MVINewLineComboBox"), 0, 75, rc.right - rc.left, 25, m_hInstance);
 			// マルチビューアイテム内にコントロールを配置.
+			// 文字コードコンボボックス
 			CMultiViewItem* pItemEncodingComboBox = m_pMultiView->Get(0);
 			CComboBox* pEncodingComboBox = new CComboBox();
 			pEncodingComboBox->Create(_T("MVIEncodingComboBox-EncodingComboBox"), WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, rc.right - rc.left, 200, pItemEncodingComboBox->m_hWnd, (HMENU)WM_APP + 200, m_hInstance);
 			pItemEncodingComboBox->m_mapChildMap.insert(std::make_pair(_T("MVIEncodingComboBox-EncodingComboBox"), pEncodingComboBox));
+			// BOMコンボボックス
+			CMultiViewItem* pItemBomComboBox = m_pMultiView->Get(1);
+			CComboBox* pBomComboBox = new CComboBox();
+			pBomComboBox->Create(_T("MVIBomComboBox-BomComboBox"), WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, rc.right - rc.left, 200, pItemBomComboBox->m_hWnd, (HMENU)WM_APP + 201, m_hInstance);
+			pItemBomComboBox->m_mapChildMap.insert(std::make_pair(_T("MVIBomComboBox-BomComboBox"), pBomComboBox));
 			// 文字コードコンボボックスに文字列アイテムを追加
 			pEncodingComboBox->AddString(_T("Shift_JIS"));
 			pEncodingComboBox->AddString(_T("UTF-16LE"));
@@ -202,6 +208,11 @@ int CMainWindow::OnFileOpen(WPARAM wParam, LPARAM lParam) {
 			pEncodingComboBox->AddString(_T("UTF-8"));
 			pEncodingComboBox->AddString(_T("EUC-JP"));
 			pEncodingComboBox->AddString(_T("JIS"));
+			// BOMコンボボックスに文字列アイテムを追加
+			pBomComboBox->AddString(_T("UTF-16LE BOM"));
+			pBomComboBox->AddString(_T("UTF-16BE BOM"));
+			pBomComboBox->AddString(_T("UTF-8 BOM"));
+			pBomComboBox->AddString(_T("なし"));
 			// テキストファイルの読み込み.
 			if (m_pTextFile == NULL) {
 				m_pTextFile = new CTextFile();
@@ -226,6 +237,19 @@ int CMainWindow::OnFileOpen(WPARAM wParam, LPARAM lParam) {
 				}
 				else {
 					pEncodingComboBox->SetCurSel(5);
+				}
+				// BOM
+				if (m_pTextFile->m_Bom == CTextFile::BOM_UTF16LE) {
+					pBomComboBox->SetCurSel(0);
+				}
+				else if (m_pTextFile->m_Bom == CTextFile::BOM_UTF16BE) {
+					pBomComboBox->SetCurSel(1);
+				}
+				else if (m_pTextFile->m_Bom == CTextFile::BOM_UTF8) {
+					pBomComboBox->SetCurSel(2);
+				}
+				else {
+					pBomComboBox->SetCurSel(3);
 				}
 			}
 		}
