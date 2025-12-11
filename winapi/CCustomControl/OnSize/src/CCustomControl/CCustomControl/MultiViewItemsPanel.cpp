@@ -106,7 +106,12 @@ size_t CMultiViewItemsPanel::GetSize() {
 CMultiViewItem* CMultiViewItemsPanel::Get(int iIndex) {
 
 	// iIndex”Ô–Ú‚Ì—v‘f‚ð•Ô‚·.
-	return m_vecMultiViewItemList[iIndex];	// m_vecMultiViewItemList[iIndex]‚ð•Ô‚·.
+	if (GetSize() > 0) {
+		return m_vecMultiViewItemList[iIndex];	// m_vecMultiViewItemList[iIndex]‚ð•Ô‚·.
+	}
+	else {
+		return NULL;
+	}
 
 }
 

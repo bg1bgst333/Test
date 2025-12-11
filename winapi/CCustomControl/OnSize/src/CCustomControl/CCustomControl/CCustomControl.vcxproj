@@ -147,6 +147,7 @@
     <ClInclude Include="CustomControl.h" />
     <ClInclude Include="CustomEdit.h" />
     <ClInclude Include="EditCore.h" />
+    <ClInclude Include="EncodingComboBox.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="FileDialog.h" />
     <ClInclude Include="file_utility_cstdio.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="CustomControl.cpp" />
     <ClCompile Include="CustomEdit.cpp" />
     <ClCompile Include="EditCore.cpp" />
+    <ClCompile Include="EncodingComboBox.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="FileDialog.cpp" />
     <ClCompile Include="file_utility_cstdio.c" />
