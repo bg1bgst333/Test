@@ -133,6 +133,20 @@ LRESULT CCustomControl::DynamicWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 			// 既定の処理へ向かう.
 			break;	// breakで抜けて, 既定の処理へ向かう.
 
+		// ウィンドウのサイズが変更された時.
+		case WM_SIZE:
+
+			// WM_SIZEブロック
+			{
+
+				// OnSizeに任せる.
+				OnSize((UINT)wParam, LOWORD(lParam), HIWORD(lParam));	// OnSizeに任せる.
+
+			}
+
+			// 既定の処理へ向かう.
+			break;	// breakで抜けて, 既定の処理(DefWindowProc)へ向かう.
+
 		// ウィンドウの描画を要求された時.
 		case WM_PAINT:
 
@@ -211,6 +225,11 @@ void CCustomControl::OnDestroy() {
 	if (m_mapWindowMap.find(m_hWnd) != m_mapWindowMap.end()) {	// findでみつかったら.
 		m_mapWindowMap.erase(m_hWnd);	// m_mapWindowMap.eraseで削除.
 	}
+
+}
+
+// ウィンドウのサイズが変更された時.
+void CCustomControl::OnSize(UINT nType, int cx, int cy) {
 
 }
 
