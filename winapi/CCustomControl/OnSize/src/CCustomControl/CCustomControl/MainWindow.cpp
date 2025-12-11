@@ -8,6 +8,7 @@
 #include "FileDialog.h"	// CFileDialog
 #include "CustomEdit.h"	// CCustomEdit
 #include "ComboBox.h"	// CComboBox
+#include "EditCore.h"	// CEditCore
 #include "resource.h"
 
 // ウィンドウクラス登録関数RegisterClass.
@@ -188,7 +189,7 @@ int CMainWindow::OnFileOpen(WPARAM wParam, LPARAM lParam) {
 			GetClientRect(m_hWnd, &rc);
 			m_pMultiView->Add(_T("MVIEncodingComboBox"), 0, 0, rc.right - rc.left, 25, m_hInstance);
 			m_pMultiView->Add(_T("MVIBomComboBox"), 0, 25, rc.right - rc.left, 25, m_hInstance);
-			//m_pMultiView->Add(_T("MVIContentEditBox"), 0, 50, rc.right - rc.left, 25, m_hInstance);
+			m_pMultiView->Add(_T("MVIContentEditBox"), 0, 50, rc.right - rc.left, rc.bottom - rc.top - 75, m_hInstance);
 			//m_pMultiView->Add(_T("MVINewLineComboBox"), 0, 75, rc.right - rc.left, 25, m_hInstance);
 			// マルチビューアイテム内にコントロールを配置.
 			// 文字コードコンボボックス
@@ -201,6 +202,10 @@ int CMainWindow::OnFileOpen(WPARAM wParam, LPARAM lParam) {
 			CComboBox* pBomComboBox = new CComboBox();
 			pBomComboBox->Create(_T("MVIBomComboBox-BomComboBox"), WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, rc.right - rc.left, 200, pItemBomComboBox->m_hWnd, (HMENU)WM_APP + 201, m_hInstance);
 			pItemBomComboBox->m_mapChildMap.insert(std::make_pair(_T("MVIBomComboBox-BomComboBox"), pBomComboBox));
+			// コンテントエディットボックス
+			CMultiViewItem* pItemContentEditBox = m_pMultiView->Get(2);
+			CEditCore* pContentEditBox = new CEditCore();
+			pContentEditBox->Create(_T(""), WS_HSCROLL | WS_VSCROLL | ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL | WS_BORDER, 0, 0, rc.right - rc.left, rc.bottom - rc.top - 75, pItemContentEditBox->m_hWnd, (HMENU)WM_APP + 202, m_hInstance);
 			// 文字コードコンボボックスに文字列アイテムを追加
 			pEncodingComboBox->AddString(_T("Shift_JIS"));
 			pEncodingComboBox->AddString(_T("UTF-16LE"));
@@ -251,6 +256,8 @@ int CMainWindow::OnFileOpen(WPARAM wParam, LPARAM lParam) {
 				else {
 					pBomComboBox->SetCurSel(3);
 				}
+				// ファイル内容
+				pContentEditBox->SetWindowText(m_pTextFile->m_tstrText.c_str());
 			}
 		}
 	}
