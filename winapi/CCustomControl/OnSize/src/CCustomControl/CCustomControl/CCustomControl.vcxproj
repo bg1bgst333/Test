@@ -142,11 +142,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="BinaryFile.h" />
     <ClInclude Include="ComboBox.h" />
     <ClInclude Include="CustomControl.h" />
     <ClInclude Include="CustomEdit.h" />
     <ClInclude Include="EditCore.h" />
+    <ClInclude Include="File.h" />
     <ClInclude Include="FileDialog.h" />
+    <ClInclude Include="file_utility_cstdio.h" />
     <ClInclude Include="HandlerConditions.h" />
     <ClInclude Include="MainApplication.h" />
     <ClInclude Include="MainWindow.h" />
@@ -155,7 +158,9 @@
     <ClInclude Include="MultiViewItem.h" />
     <ClInclude Include="MultiViewItemsPanel.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="string_utility_cppstring.h" />
     <ClInclude Include="string_utility_cstring.h" />
+    <ClInclude Include="TextFile.h" />
     <ClInclude Include="UserControl.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -164,18 +169,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="BinaryFile.cpp" />
     <ClCompile Include="ComboBox.cpp" />
     <ClCompile Include="CustomControl.cpp" />
     <ClCompile Include="CustomEdit.cpp" />
     <ClCompile Include="EditCore.cpp" />
+    <ClCompile Include="File.cpp" />
     <ClCompile Include="FileDialog.cpp" />
+    <ClCompile Include="file_utility_cstdio.c" />
     <ClCompile Include="MainApplication.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MultiView.cpp" />
     <ClCompile Include="MultiViewItem.cpp" />
     <ClCompile Include="MultiViewItemsPanel.cpp" />
+    <ClCompile Include="string_utility_cppstring.cpp" />
     <ClCompile Include="string_utility_cstring.c" />
+    <ClCompile Include="TextFile.cpp" />
     <ClCompile Include="UserControl.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />

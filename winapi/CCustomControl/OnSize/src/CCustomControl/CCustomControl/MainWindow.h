@@ -7,6 +7,7 @@
 #include "Window.h"	// CWindow
 #include "Menu.h"	// CMenu
 #include "MultiView.h"	// CMultiView
+#include "TextFile.h"	// CTextFile
 
 // メインウィンドウクラスCMainWindow
 class CMainWindow : public CWindow {
@@ -18,6 +19,7 @@ class CMainWindow : public CWindow {
 		HINSTANCE m_hInstance;	// インスタンスハンドルm_hInstance.
 		CMenu* m_pMainMenu;	// CMenuオブジェクトポインタm_pMainMenu.
 		CMultiView* m_pMultiView;	// CMultiViewオブジェクトポインタm_pMultiView.
+		CTextFile* m_pTextFile;	// CTextFileオブジェクトポインタm_pTextFile.
 
 		// staticメンバ関数
 		static BOOL RegisterClass(HINSTANCE hInstance);	// ウィンドウクラス登録関数RegisterClass.
