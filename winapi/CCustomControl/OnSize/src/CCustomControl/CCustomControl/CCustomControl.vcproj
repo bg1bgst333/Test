@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\EncodingComboBox.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\File.cpp"
 				>
 			</File>
@@ -288,6 +292,10 @@
 			</File>
 			<File
 				RelativePath=".\EditCore.h"
+				>
+			</File>
+			<File
+				RelativePath=".\EncodingComboBox.h"
 				>
 			</File>
 			<File
