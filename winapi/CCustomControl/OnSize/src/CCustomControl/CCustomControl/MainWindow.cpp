@@ -119,6 +119,7 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct) {
 			GetClientRect(hwnd, &rc);
 			m_pMultiView = new CMultiView();
 			m_pMultiView->Create(_T(""), 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top, hwnd, (HMENU)IDC_MULTIVIEW, m_hInstance);
+			/*
 			// アイテムの追加.
 			m_pMultiView->Add(_T("Item0"), 0, 0, rc.right - rc.left, 25, m_hInstance);
 			// マルチビューアイテムの取得.
@@ -133,6 +134,7 @@ int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct) {
 			pComboBox1->AddString(_T("さしすせそ"));
 			// 2番目の"さしすせそ"にセット.
 			pComboBox1->SetCurSel(2);
+			*/
 		}
 	}
 	return iRet;	// iRetを返す.
@@ -188,7 +190,30 @@ int CMainWindow::OnFileOpen(WPARAM wParam, LPARAM lParam) {
 	CFileDialog dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY, _T("Text Files(*.txt)|*.txt|All Files(*.*)|*.*||"));
 	INT_PTR ret = dlg.DoModal();
 	if (ret == IDOK) {
-		MessageBox(m_hWnd, dlg.GetFileExt().c_str(), _T("CCustomControl"), MB_OK);
+		if (dlg.GetFileExt() == _T("txt")) {
+			// テキストファイルをロードする.
+			// マルチビューアイテムの追加.
+			RECT rc = { 0 };
+			GetClientRect(m_hWnd, &rc);
+			m_pMultiView->Add(_T("MVIEncodingComboBox"), 0, 0, rc.right - rc.left, 25, m_hInstance);
+			m_pMultiView->Add(_T("MVIContentEditBox"), 0, 25, rc.right - rc.left, 25, m_hInstance);
+			m_pMultiView->Add(_T("MVINewLineComboBox"), 0, 50, rc.right - rc.left, 25, m_hInstance);
+			// マルチビューアイテム内にコントロールを配置.
+			CMultiViewItem* pItemEncodingComboBox = m_pMultiView->Get(0);
+			CComboBox* pEncodingComboBox = new CComboBox();
+			pEncodingComboBox->Create(_T("MVIEncodingComboBox-EncodingComboBox"), WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, rc.right - rc.left, 200, pItemEncodingComboBox->m_hWnd, (HMENU)WM_APP + 200, m_hInstance);
+			pItemEncodingComboBox->m_mapChildMap.insert(std::make_pair(_T("MVIEncodingComboBox-EncodingComboBox"), pEncodingComboBox));
+			// 文字コードコンボボックスに文字列アイテムを追加
+			pEncodingComboBox->AddString(_T("Shift_JIS"));
+			pEncodingComboBox->AddString(_T("UTF-16LE"));
+			pEncodingComboBox->AddString(_T("UTF-16BE"));
+			pEncodingComboBox->AddString(_T("UTF-8 BOM"));
+			pEncodingComboBox->AddString(_T("UTF-8"));
+			pEncodingComboBox->AddString(_T("EUC-JP"));
+			pEncodingComboBox->AddString(_T("JIS"));
+			pEncodingComboBox->SetCurSel(0);
+		}
+		//MessageBox(m_hWnd, dlg.GetFileExt().c_str(), _T("ObjeqtNote32"), MB_OK);
 	}
 	/*
 	// マルチビューアイテムの取得.
