@@ -1,0 +1,347 @@
+// ヘッダのインクルード
+// 既定のヘッダ
+#include <windows.h>	// 標準WindowsAPI
+#include <stdio.h>	// C標準入出力
+#include <commctrl.h>	// コモンコントロール
+// 独自のヘッダ
+#include "MainWindow.h"	// CMainWindow
+#include "FileDialog.h"	// CFileDialog
+#include "CustomEdit.h"	// CCustomEdit
+//#include "EncodingComboBox.h"	// CEncodingComboBox
+#include "ComboBox.h"	// CComboBox
+#include "EditCore.h"	// CEditCore
+#include "resource.h"
+
+// ウィンドウクラス登録関数RegisterClass.
+BOOL CMainWindow::RegisterClass(HINSTANCE hInstance) {
+
+	// ウィンドウクラス名は"CMainWindow".
+	return CWindow::RegisterClass(hInstance, _T("CMainWindow"));	// CWindow::RegisterClassでウィンドウクラス名"CMainWindow"を登録.
+
+}
+
+// ウィンドウクラス登録関数RegisterClass.(メニュー名指定バージョン)
+BOOL CMainWindow::RegisterClass(HINSTANCE hInstance, LPCTSTR lpctszMenuName) {
+
+	// メニュー名はlpctszMenuName.
+	return CWindow::RegisterClass(hInstance, _T("CMainWindow"), lpctszMenuName);	// CWindow::RegisterClassで, ウィンドウクラス名"CMainWindow", メニュー名lpctszMenuNameを登録.
+
+}
+
+// コンストラクタCMainWindow()
+CMainWindow::CMainWindow() {
+
+	// メンバの初期化.
+	m_hInstance = NULL;
+	m_pMainMenu = NULL;
+	m_pMultiView = NULL;
+	m_pTextFile = NULL;	// m_pTextFileをNULLで初期化.
+
+}
+
+// デストラクタ~CMainWindow()
+CMainWindow::~CMainWindow() {
+
+	// メンバの終了処理.
+	Destroy();	// Destroyで子ウィンドウの破棄.
+
+}
+
+// ウィンドウ作成関数Create.(ウィンドウクラス名省略バージョン.)
+BOOL CMainWindow::Create(LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance) {
+
+	// ウィンドウクラス名は"CMainWindow".
+	return CWindow::Create(_T("CMainWindow"), lpctszWindowName, dwStyle, x, y, iWidth, iHeight, hWndParent, hMenu, hInstance);	// CWindow::Createにウィンドウクラス名"CMainWindow"を指定.
+
+}
+
+// ウィンドウ作成関数CreateEx.
+BOOL CMainWindow::CreateEx(DWORD dwExStyle, LPCTSTR lpctszWindowName, DWORD dwStyle, int x, int y, int iWidth, int iHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance) {
+
+	// ウィンドウクラス名は"CMainWindow".
+	return CWindow::CreateEx(dwExStyle, _T("CMainWindow"), lpctszWindowName, dwStyle, x, y, iWidth, iHeight, hWndParent, hMenu, hInstance);	// CWindow::CreateExにウィンドウクラス名"CMainWindow"を指定.
+
+}
+
+// ウィンドウ破棄関数Destroy
+BOOL CMainWindow::Destroy() {
+
+	// 変数の初期化.
+	BOOL bRet = FALSE;	// bRetをFALSEで初期化.
+
+	// DestroyChildrenを分けたので, 自身のウィンドウ破棄は問題ない.
+	// まず子ウィンドウの破棄.
+	DestroyChildren();
+
+	// 自身のウィンドウ破棄.
+	bRet = CWindow::Destroy();	// 戻り値をbRetに格納.
+
+	// bRetを返す.
+	return bRet;
+
+}
+
+// 子ウィンドウ破棄関数DestroyChildren
+BOOL CMainWindow::DestroyChildren() {
+
+	// 変数の初期化.
+	BOOL bRet = FALSE;	// bRetをFALSEで初期化.
+
+	// テキストファイルオブジェクトの破棄.
+	if (m_pTextFile != NULL) {	// m_pTextFileがNULLでなければ.
+		delete m_pTextFile;	// deleteでm_pTextFileを解放.
+		m_pTextFile = NULL;	// m_pTextFileにNULLをセット.
+	}
+
+	// メンバの終了処理.
+	if (m_pMultiView != NULL) {
+		bRet = m_pMultiView->Destroy();
+		delete m_pMultiView;
+		m_pMultiView = NULL;
+	}
+
+	// 破棄したらTRUEを返す.
+	if (bRet) {	// TRUEなら.
+		return TRUE;	// TRUEを返す.
+	}
+
+	// 破棄しなければ, CWindowのDestroyChildrenを返す.
+	return CWindow::DestroyChildren();	// CWindow::DestroyChildrenを返す.
+
+}
+
+// ウィンドウの作成が開始された時.
+int CMainWindow::OnCreate(HWND hwnd, LPCREATESTRUCT lpCreateStruct) {
+
+	// 親クラスのOnCreateを呼ぶ.
+	m_hInstance = lpCreateStruct->hInstance;
+	int iRet = CWindow::OnCreate(hwnd, lpCreateStruct);	// CWindow::OnCreateを呼び, 戻り値をiRetに格納.
+	m_pMainMenu = GetMenu();	// CWindow::GetMenuでm_pMainMenu取得.
+	if (m_pMainMenu == NULL) {	// メニューハンドルが無い場合は, m_pMainMenuがNULLになる.
+		m_pMainMenu = new CMenu();
+		BOOL bRet = m_pMainMenu->LoadMenu(lpCreateStruct->hInstance, IDM_MAINMENU);
+		if (bRet) {
+			SetMenu(m_pMainMenu);
+			AddCommandHandler(ID_ITEM_FILE_OPEN, 0, this, (int(CWindow::*)(WPARAM, LPARAM)) & CMainWindow::OnFileOpen);
+			AddCommandHandler(ID_CTRL_START + 0, CBN_SELCHANGE, (int(CWindow::*)(WPARAM, LPARAM)) & CMainWindow::OnCbnSelChangeEnc);
+			AddCommandHandler(ID_CTRL_START + 1, CBN_SELCHANGE, this, (int(CWindow::*)(WPARAM, LPARAM)) & CMainWindow::OnCbnSelChangeBom);
+			AddCommandHandler(ID_CTRL_START + 3, CBN_SELCHANGE, this, (int(CWindow::*)(WPARAM, LPARAM)) & CMainWindow::OnCbnSelChangeNewLine);
+			// CMultiViewの生成.
+			RECT rc = { 0 };
+			GetClientRect(hwnd, &rc);
+			m_pMultiView = new CMultiView();
+			m_pMultiView->Create(_T(""), 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top, hwnd, (HMENU)IDC_MULTIVIEW, m_hInstance);
+		}
+	}
+	return iRet;	// iRetを返す.
+
+}
+
+// ウィンドウが破棄された時.
+void CMainWindow::OnDestroy() {
+
+	// ハンドラの削除.
+	DeleteCommandHandler(ID_ITEM_FILE_OPEN, 0);
+	DeleteCommandHandler(ID_CTRL_START + 0, CBN_SELCHANGE);
+	DeleteCommandHandler(ID_CTRL_START + 1, CBN_SELCHANGE);
+	DeleteCommandHandler(ID_CTRL_START + 3, CBN_SELCHANGE);
+
+	// メニューの終了処理.
+	CMenu::DeleteMenuHandleMap();
+	m_pMainMenu = NULL;
+
+	// CWindowのOnDestroyを呼ぶ.
+	CWindow::OnDestroy();	// CWindow::OnDestroyを呼ぶ.
+
+}
+
+// ウィンドウのサイズが変更された時.
+void CMainWindow::OnSize(UINT nType, int cx, int cy) {
+
+	// マルチビューをメインウィンドウのクライアント領域サイズにリサイズ.
+	if (m_pMultiView != NULL) {
+		m_pMultiView->MoveWindow(0, 0, cx, cy);
+		/*
+		CMultiViewItem* pItemEncodingComboBox = m_pMultiView->Get(0);
+		if (pItemEncodingComboBox != NULL) {
+			CComboBox* pEncodingComboBox = (CComboBox*)pItemEncodingComboBox->m_mapChildMap[_T("MVIEncodingComboBox-EncodingComboBox")];
+			pEncodingComboBox->MoveWindow(0, 0, cx, 25);
+		}
+		*/
+	}
+
+}
+
+// ウィンドウが閉じられる時.
+int CMainWindow::OnClose() {
+
+	// メッセージボックスで"Close CMainWindow OK?"と表示.
+	int iRet = MessageBox(m_hWnd, _T("Close CMainWindow OK?"), _T("CWindow"), MB_OKCANCEL);	// MessageBoxで"Close CMainWindow OK?"と表示し, 戻り値をiRetに格納.
+	if (iRet != IDOK) {	// OK以外.(Cancelなど.)
+		return -1;	// -1を返す.
+	}
+
+	// このウィンドウの破棄.(OnCloseの後, ウィンドウの破棄処理が勝手に行われるので, Destroyは不要なのでコメントアウト.)
+	//Destroy();	// Destroyでこのウィンドウの破棄処理.
+
+	// OKなので閉じる.
+	return CWindow::OnClose();	// 親クラスのOnCloseを呼ぶ.(親クラスのOnCloseは常に閉じる処理になっている.)
+
+}
+
+// 文字コードコンボボックスのアイテム選択が変更された時.
+int CMainWindow::OnCbnSelChangeEnc(WPARAM wParam, LPARAM lParam) {
+
+	// デバッグメッセージ.
+	OutputDebugString(_T("CMainWindow::OnCbnSelChangeEnc\n"));
+
+	CMultiViewItem* item = m_pMultiView->Get(0);
+
+	tstring ts = m_pTextFile->m_tstrText;
+
+	// 0を返す.
+	return 0;	// 処理したので0.
+
+}
+
+// BOMコンボボックスのアイテム選択が変更された時.
+int CMainWindow::OnCbnSelChangeBom(WPARAM wParam, LPARAM lParam) {
+
+	// デバッグメッセージ.
+	OutputDebugString(_T("CMainWindow::OnCbnSelChangeBom\n"));
+
+	CMultiViewItem* item = m_pMultiView->Get(1);
+
+	tstring ts = m_pTextFile->m_tstrText;
+
+	// 0を返す.
+	return 0;	// 処理したので0.
+
+}
+
+// 改行コンボボックスのアイテム選択が変更された時.
+int CMainWindow::OnCbnSelChangeNewLine(WPARAM wParam, LPARAM lParam) {
+
+	// デバッグメッセージ.
+	OutputDebugString(_T("CMainWindow::OnCbnSelChangeNewLine\n"));
+
+	CMultiViewItem* item = m_pMultiView->Get(3);
+
+	tstring ts = m_pTextFile->m_tstrText;
+
+	// 0を返す.
+	return 0;	// 処理したので0.
+
+}
+
+// 開くが選択された時.
+int CMainWindow::OnFileOpen(WPARAM wParam, LPARAM lParam) {
+
+	// "開く"ダイアログ
+	CFileDialog dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY, _T("Text Files(*.txt)|*.txt|All Files(*.*)|*.*||"));
+	INT_PTR ret = dlg.DoModal();
+	if (ret == IDOK) {
+		if (dlg.GetFileExt() == _T("txt")) {
+			// テキストファイルをロードする.
+			// マルチビューアイテムの追加.
+			RECT rc = { 0 };
+			GetClientRect(m_hWnd, &rc);
+			m_pMultiView->Add(_T("MVIEncodingComboBox"), 0, 0, rc.right - rc.left, 25, m_hInstance);
+			m_pMultiView->Add(_T("MVIBomComboBox"), 0, 25, rc.right - rc.left, 25, m_hInstance);
+			m_pMultiView->Add(_T("MVIContentEditBox"), 0, 50, rc.right - rc.left, rc.bottom - rc.top - 75, m_hInstance);
+			m_pMultiView->Add(_T("MVINewLineComboBox"), 0, rc.bottom - rc.top - 25, rc.right - rc.left, 25, m_hInstance);
+			// マルチビューアイテム内にコントロールを配置.
+			// 文字コードコンボボックス
+			CMultiViewItem* pItemEncodingComboBox = m_pMultiView->Get(0);
+			CComboBox* pEncodingComboBox = new CComboBox();//new CEncodingComboBox();
+			pEncodingComboBox->Create(_T("MVIEncodingComboBox-EncodingComboBox"), WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, rc.right - rc.left, 200, pItemEncodingComboBox->m_hWnd, (HMENU)(ID_CTRL_START + 0), m_hInstance);
+			pItemEncodingComboBox->m_mapChildMap.insert(std::make_pair(_T("MVIEncodingComboBox-EncodingComboBox"), pEncodingComboBox));
+			//AddCommandHandler(ID_CTRL_START + 0, CBN_SELCHANGE, (int(CWindow::*)(WPARAM, LPARAM)) & CWindow::OnCbnSelChange);
+			// BOMコンボボックス
+			CMultiViewItem* pItemBomComboBox = m_pMultiView->Get(1);
+			CComboBox* pBomComboBox = new CComboBox();
+			pBomComboBox->Create(_T("MVIBomComboBox-BomComboBox"), WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, rc.right - rc.left, 200, pItemBomComboBox->m_hWnd, (HMENU)(HMENU)(ID_CTRL_START + 1), m_hInstance);
+			pItemBomComboBox->m_mapChildMap.insert(std::make_pair(_T("MVIBomComboBox-BomComboBox"), pBomComboBox));
+			// コンテントエディットボックス
+			CMultiViewItem* pItemContentEditBox = m_pMultiView->Get(2);
+			CEditCore* pContentEditBox = new CEditCore();
+			pContentEditBox->Create(_T(""), WS_HSCROLL | WS_VSCROLL | ES_MULTILINE | ES_WANTRETURN | ES_AUTOHSCROLL | ES_AUTOVSCROLL | WS_BORDER, 0, 0, rc.right - rc.left, rc.bottom - rc.top - 75, pItemContentEditBox->m_hWnd, (HMENU)(HMENU)(ID_CTRL_START + 2), m_hInstance);
+			// 改行コンボボックス
+			CMultiViewItem* pItemNewLineComboBox = m_pMultiView->Get(3);
+			CComboBox* pNewLineComboBox = new CComboBox();
+			pNewLineComboBox->Create(_T("MVINewLineComboBox-NewLineComboBox"), WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 0, 0, rc.right - rc.left, 200, pItemNewLineComboBox->m_hWnd, (HMENU)(HMENU)(ID_CTRL_START + 3), m_hInstance);
+			pItemNewLineComboBox->m_mapChildMap.insert(std::make_pair(_T("MVINewLineComboBox-NewLineComboBox"), pNewLineComboBox));
+			// 文字コードコンボボックスに文字列アイテムを追加
+			pEncodingComboBox->AddString(_T("Shift_JIS"));
+			pEncodingComboBox->AddString(_T("UTF-16LE"));
+			pEncodingComboBox->AddString(_T("UTF-16BE"));
+			pEncodingComboBox->AddString(_T("UTF-8"));
+			pEncodingComboBox->AddString(_T("EUC-JP"));
+			pEncodingComboBox->AddString(_T("JIS"));
+			// BOMコンボボックスに文字列アイテムを追加
+			pBomComboBox->AddString(_T("UTF-16LE BOM"));
+			pBomComboBox->AddString(_T("UTF-16BE BOM"));
+			pBomComboBox->AddString(_T("UTF-8 BOM"));
+			pBomComboBox->AddString(_T("なし"));
+			// 改行コンボボックスに文字列アイテムを追加
+			pNewLineComboBox->AddString(_T("CRLF"));
+			pNewLineComboBox->AddString(_T("LF"));
+			pNewLineComboBox->AddString(_T("CR"));
+			// テキストファイルの読み込み.
+			if (m_pTextFile == NULL) {
+				m_pTextFile = new CTextFile();
+			}
+			BOOL bRet = m_pTextFile->Read(dlg.GetOFN().lpstrFile);	// 指定されたファイルを読み込み, 読み込んだバイト列を文字コード変換し, テキストとして持つ.
+			if (bRet) {	// 成功.
+				// 文字コード.
+				if (m_pTextFile->m_Encoding == CTextFile::ENCODING_UTF_16LE) {
+					pEncodingComboBox->SetCurSel(1);
+				}
+				else if (m_pTextFile->m_Encoding == CTextFile::ENCODING_UTF_16BE) {
+					pEncodingComboBox->SetCurSel(2);
+				}
+				else if (m_pTextFile->m_Encoding == CTextFile::ENCODING_UTF_8) {
+					pEncodingComboBox->SetCurSel(3);
+				}
+				else if (m_pTextFile->m_Encoding == CTextFile::ENCODING_SHIFT_JIS) {
+					pEncodingComboBox->SetCurSel(0);
+				}
+				else if (m_pTextFile->m_Encoding == CTextFile::ENCODING_EUC_JP) {
+					pEncodingComboBox->SetCurSel(4);
+				}
+				else {
+					pEncodingComboBox->SetCurSel(5);
+				}
+				// BOM
+				if (m_pTextFile->m_Bom == CTextFile::BOM_UTF16LE) {
+					pBomComboBox->SetCurSel(0);
+				}
+				else if (m_pTextFile->m_Bom == CTextFile::BOM_UTF16BE) {
+					pBomComboBox->SetCurSel(1);
+				}
+				else if (m_pTextFile->m_Bom == CTextFile::BOM_UTF8) {
+					pBomComboBox->SetCurSel(2);
+				}
+				else {
+					pBomComboBox->SetCurSel(3);
+				}
+				// ファイル内容
+				pContentEditBox->SetWindowText(m_pTextFile->m_tstrText.c_str());
+				// 改行
+				if (m_pTextFile->m_NewLine == CTextFile::NEW_LINE_CR) {
+					pNewLineComboBox->SetCurSel(2);
+				}
+				else if (m_pTextFile->m_NewLine == CTextFile::NEW_LINE_LF) {
+					pNewLineComboBox->SetCurSel(1);
+				}
+				else {
+					pNewLineComboBox->SetCurSel(0);
+				}
+			}
+		}
+	}
+
+	// 0を返す.
+	return 0;	// 処理したので0.
+
+}
