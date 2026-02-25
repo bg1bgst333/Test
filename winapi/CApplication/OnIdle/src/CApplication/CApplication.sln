@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CApplication", "CApplication\CApplication.vcproj", "{31656108-C295-40A2-A1A6-56D1E21AAECF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31656108-C295-40A2-A1A6-56D1E21AAECF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{31656108-C295-40A2-A1A6-56D1E21AAECF}.Debug|Win32.Build.0 = Debug|Win32
+		{31656108-C295-40A2-A1A6-56D1E21AAECF}.Release|Win32.ActiveCfg = Release|Win32
+		{31656108-C295-40A2-A1A6-56D1E21AAECF}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
