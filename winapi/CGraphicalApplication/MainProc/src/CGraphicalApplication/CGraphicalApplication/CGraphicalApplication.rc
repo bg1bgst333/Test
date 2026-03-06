@@ -1,0 +1,9 @@
+#include "resource.h"
+
+IDM_MAINMENU MENU
+BEGIN
+	POPUP "アプリケーション(&A)"
+	BEGIN
+		MENUITEM "アプリケーションの終了(&X)", ID_ITEM_APPLICATION_EXIT
+	END
+END
