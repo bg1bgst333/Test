@@ -13,7 +13,7 @@ BOOL CMainApplication::InitInstance(HINSTANCE hInstance, LPTSTR lpCmdLine, int n
 	CMainWindow *pMainWnd = new CMainWindow();	// CMainWindowオブジェクトを作成し, pMainWndに格納.
 	m_pMainWnd = pMainWnd;	// pMainWndをm_pMainWndにもセット.
 	// ウィンドウの作成.
-	if (!pMainWnd->CreateEx(0, _T("CGameApplication"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance)){	// m_pMainWnd->CreateExでウィンドウ作成し, 失敗した場合.
+	if (!pMainWnd->CreateEx(0, _T("CGraphicalApplication"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance)){	// m_pMainWnd->CreateExでウィンドウ作成し, 失敗した場合.
 
 		// エラー処理
 		return FALSE;	// returnでFALSEを返して異常終了.

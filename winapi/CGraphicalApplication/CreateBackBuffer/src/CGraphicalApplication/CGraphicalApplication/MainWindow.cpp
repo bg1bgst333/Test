@@ -127,7 +127,7 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy){
 int CMainWindow::OnClose(){
 
 	// メッセージボックスで"Close CMainWindow OK?"と表示.
-	int iRet = MessageBox(m_hWnd, _T("Close CMainWindow OK?"), _T("CGameApplication"), MB_OKCANCEL);	// MessageBoxで"Close CMainWindow OK?"と表示し, 戻り値をiRetに格納.
+	int iRet = MessageBox(m_hWnd, _T("Close CMainWindow OK?"), _T("CGraphicalApplication"), MB_OKCANCEL);	// MessageBoxで"Close CMainWindow OK?"と表示し, 戻り値をiRetに格納.
 	if (iRet != IDOK){	// OK以外.(Cancelなど.)
 		return -1;	// -1を返す.
 	}

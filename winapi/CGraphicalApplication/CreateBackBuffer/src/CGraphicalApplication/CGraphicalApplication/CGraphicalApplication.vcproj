@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="CGameApplication"
+	Name="CGraphicalApplication"
 	ProjectGUID="{565A721B-EF64-443B-9235-52640E3A991E}"
-	RootNamespace="CGameApplication"
+	RootNamespace="CGraphicalApplication"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -255,7 +255,7 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath=".\CGameApplication.rc"
+				RelativePath=".\CGraphicalApplication.rc"
 				>
 			</File>
 		</Filter>
