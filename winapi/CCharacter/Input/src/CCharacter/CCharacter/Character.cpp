@@ -82,21 +82,21 @@ void CCharacter::StopVertical(){
 }
 
 // 入力処理関数Input.
-void CCharacter::Input() {
+void CCharacter::Input(){
 
 	// 矢印キーの押下状態を調べて, 自分の速度(m_vx, m_vy)に反映する.(座標の更新自体はLogicで行う.)
-	if (CKeyboardInput::IsKeyDown(VK_RIGHT)) {	// 右矢印キーが押されている場合.
+	if (CKeyboardInput::IsKeyDown(VK_RIGHT)){	// 右矢印キーが押されている場合.
 		MoveRight();	// MoveRightで右へ移動させる.
-	} else if (CKeyboardInput::IsKeyDown(VK_LEFT)) {	// 左矢印キーが押されている場合.
+	}else if (CKeyboardInput::IsKeyDown(VK_LEFT)){	// 左矢印キーが押されている場合.
 		MoveLeft();	// MoveLeftで左へ移動させる.
-	} else {	// どちらも押されていない場合.
+	}else{	// どちらも押されていない場合.
 		StopHorizontal();	// StopHorizontalで水平方向の速度を止める.
 	}
-	if (CKeyboardInput::IsKeyDown(VK_DOWN)) {	// 下矢印キーが押されている場合.
+	if (CKeyboardInput::IsKeyDown(VK_DOWN)){	// 下矢印キーが押されている場合.
 		MoveDown();	// MoveDownで下へ移動させる.
-	} else if (CKeyboardInput::IsKeyDown(VK_UP)) {	// 上矢印キーが押されている場合.
+	}else if (CKeyboardInput::IsKeyDown(VK_UP)){	// 上矢印キーが押されている場合.
 		MoveUp();	// MoveUpで上へ移動させる.
-	} else {	// どちらも押されていない場合.
+	}else{	// どちらも押されていない場合.
 		StopVertical();	// StopVerticalで垂直方向の速度を止める.
 	}
 
